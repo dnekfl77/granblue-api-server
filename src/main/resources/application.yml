@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: granblue-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/granblue_db
+    username: granblue_user
+    password: granblue_password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+        use_sql_comments: true
+
+logging:
+  level:
+    root: INFO
+    com.granblue.api: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
