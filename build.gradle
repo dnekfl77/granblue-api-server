@@ -5,7 +5,6 @@ plugins {
 }
 
 group = 'com.granblue.api'
-artifact = 'granblue-api'
 version = '0.0.1-SNAPSHOT'
 
 java {
