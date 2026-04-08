@@ -46,6 +46,22 @@ public class AuthServiceImpl implements AuthService {
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
-        return new TokenResponse(jwtTokenProvider.createToken(user.getEmail(), user.getRole().name()));
+
+        String accessToken = jwtTokenProvider.createToken(user.getEmail(), user.getRole().name());
+        String refreshToken = jwtTokenProvider.createRefreshToken(user.getEmail());
+
+        return new TokenResponse(accessToken, refreshToken);
+    }
+
+    @Override
+    public TokenResponse refresh(String refreshToken) {
+        if (!jwtTokenProvider.validateToken(refreshToken)) {
+            throw new IllegalArgumentException("유효하지 않거나 만료된 Refresh Token 입니다.");
+        }
+        String email = jwtTokenProvider.getEmailFromToken(refreshToken);
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        String newAccessToken = jwtTokenProvider.createToken(user.getEmail(), user.getRole().name());
+        return new TokenResponse(newAccessToken, refreshToken); // 보안을 높이려면 여기서 Refresh Token도 새로 발급(Rotation)할 수 있습니다.
     }
 }

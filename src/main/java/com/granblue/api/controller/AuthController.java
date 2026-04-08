@@ -31,4 +31,10 @@ public class AuthController {
     public ResponseEntity<ApiResponse<TokenResponse>> signIn(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(ApiResponse.success(authService.signIn(request)));
     }
+
+    @Operation(summary = "토큰 재발급", description = "Refresh Token을 사용하여 새로운 Access Token을 발급받습니다.")
+    @PostMapping("/refresh")
+    public ResponseEntity<ApiResponse<TokenResponse>> refresh(@RequestHeader("Refresh-Token") String refreshToken) {
+        return ResponseEntity.ok(ApiResponse.success(authService.refresh(refreshToken)));
+    }
 }

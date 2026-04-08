@@ -10,4 +10,7 @@ import lombok.Getter;
 public class TokenResponse {
     @Schema(description = "Access Token")
     private String accessToken;
+
+    @Schema(description = "Refresh Token")
+    private String refreshToken;
 }
