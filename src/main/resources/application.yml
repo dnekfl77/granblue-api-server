@@ -16,6 +16,9 @@ spring:
         highlight_sql: true
         use_sql_comments: true
 
+jwt:
+  secret: v1TqO1N0h3R6t4w1o8V9f5P1k2N0h3R6t4w1o8V9f5P1k2N0h3R6t4w1o8V9f5P1
+
 logging:
   level:
     root: INFO
