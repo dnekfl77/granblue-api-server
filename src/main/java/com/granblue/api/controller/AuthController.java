@@ -1,6 +1,6 @@
 package com.granblue.api.controller;
 
-import com.granblue.api.common.CommonResponse;
+import com.granblue.api.common.ApiResponse;
 import com.granblue.api.dto.request.LoginRequest;
 import com.granblue.api.dto.request.SignUpRequest;
 import com.granblue.api.dto.response.TokenResponse;
@@ -21,14 +21,14 @@ public class AuthController {
 
     @Operation(summary = "회원가입", description = "새로운 회원을 등록합니다.")
     @PostMapping("/sign-up")
-    public ResponseEntity<CommonResponse<Void>> signUp(@Valid @RequestBody SignUpRequest request) {
+    public ResponseEntity<ApiResponse<Void>> signUp(@Valid @RequestBody SignUpRequest request) {
         authService.signUp(request);
-        return ResponseEntity.ok(CommonResponse.success(null));
+        return ResponseEntity.ok(ApiResponse.success(null));
     }
 
     @Operation(summary = "로그인", description = "로그인 인증 후 JWT 토큰을 반환합니다.")
     @PostMapping("/sign-in")
-    public ResponseEntity<CommonResponse<TokenResponse>> signIn(@Valid @RequestBody LoginRequest request) {
-        return ResponseEntity.ok(CommonResponse.success(authService.signIn(request)));
+    public ResponseEntity<ApiResponse<TokenResponse>> signIn(@Valid @RequestBody LoginRequest request) {
+        return ResponseEntity.ok(ApiResponse.success(authService.signIn(request)));
     }
 }

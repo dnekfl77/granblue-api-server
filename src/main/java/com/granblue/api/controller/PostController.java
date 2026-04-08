@@ -1,6 +1,6 @@
 package com.granblue.api.controller;
 
-import com.granblue.api.common.CommonResponse;
+import com.granblue.api.common.ApiResponse;
 import com.granblue.api.dto.request.PostCreateRequest;
 import com.granblue.api.dto.response.PostResponse;
 import com.granblue.api.service.PostService;
@@ -23,15 +23,15 @@ public class PostController {
 
     @Operation(summary = "게시글 작성", description = "로그인한 사용자가 새로운 게시글을 작성합니다.")
     @PostMapping
-    public ResponseEntity<CommonResponse<PostResponse>> createPost(
+    public ResponseEntity<ApiResponse<PostResponse>> createPost(
             @Valid @RequestBody PostCreateRequest request,
             Authentication authentication) {
-        return ResponseEntity.ok(CommonResponse.success(postService.createPost(request, authentication.getName())));
+        return ResponseEntity.ok(ApiResponse.success(postService.createPost(request, authentication.getName())));
     }
 
     @Operation(summary = "게시글 목록 조회", description = "전체 게시글 목록을 최신순으로 조회합니다.")
     @GetMapping
-    public ResponseEntity<CommonResponse<List<PostResponse>>> getAllPosts() {
-        return ResponseEntity.ok(CommonResponse.success(postService.getAllPosts()));
+    public ResponseEntity<ApiResponse<List<PostResponse>>> getAllPosts() {
+        return ResponseEntity.ok(ApiResponse.success(postService.getAllPosts()));
     }
 }

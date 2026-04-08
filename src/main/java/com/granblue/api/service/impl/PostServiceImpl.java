@@ -4,6 +4,7 @@ import com.granblue.api.dto.request.PostCreateRequest;
 import com.granblue.api.dto.response.PostResponse;
 import com.granblue.api.entity.Post;
 import com.granblue.api.entity.User;
+import com.granblue.api.dto.converter.PostConverter;
 import com.granblue.api.repository.PostRepository;
 import com.granblue.api.repository.UserRepository;
 import com.granblue.api.service.PostService;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final PostConverter postMapper;
 
     @Override
     @Transactional
@@ -31,14 +33,14 @@ public class PostServiceImpl implements PostService {
                 .content(request.getContent())
                 .author(author)
                 .build();
-        return PostResponse.from(postRepository.save(post));
+        return postMapper.toResponse(postRepository.save(post));
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<PostResponse> getAllPosts() {
         return postRepository.findAllWithAuthorOrderByCreatedAtDesc().stream()
-                .map(PostResponse::from)
+                .map(postMapper::toResponse)
                 .collect(Collectors.toList());
     }
 }
