@@ -11,7 +11,7 @@ services:
       POSTGRES_USER: granblue_user
       POSTGRES_PASSWORD: granblue_password
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./postgres_data:/home/dnekfl77/storage/postgresql/data
 
 volumes:
   postgres_data:

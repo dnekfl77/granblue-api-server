@@ -1,0 +1,10 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    url: jdbc:postgresql://dev-db-host:5432/granblue_dev_db
+    username: dev_user
+    password: dev_password
+  jpa:
+    hibernate:
+      ddl-auto: validate
