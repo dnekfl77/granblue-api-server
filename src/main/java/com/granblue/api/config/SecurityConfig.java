@@ -27,7 +27,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authz -> authz.requestMatchers("/api/v1/auth/**").permitAll().requestMatchers(SWAGGER_URLS).permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests(authz -> authz.requestMatchers("/api/v1/auth/**", "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html").permitAll()
+                        .requestMatchers(SWAGGER_URLS).permitAll().anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
