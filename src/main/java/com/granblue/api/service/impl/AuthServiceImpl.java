@@ -3,8 +3,9 @@ package com.granblue.api.service.impl;
 import com.granblue.api.config.security.JwtTokenProvider;
 import com.granblue.api.dto.request.LoginRequest;
 import com.granblue.api.dto.request.SignUpRequest;
+import com.granblue.api.dto.converter.AuthConverter;
 import com.granblue.api.dto.response.TokenResponse;
-import com.granblue.api.entity.Role;
+import com.granblue.api.type.Role;
 import com.granblue.api.entity.User;
 import com.granblue.api.repository.UserRepository;
 import com.granblue.api.service.AuthService;
@@ -19,6 +20,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final AuthConverter authConverter;
 
     @Override
     @Transactional
@@ -26,14 +28,10 @@ public class AuthServiceImpl implements AuthService {
         if (userRepository.existsByEmail(request.getEmail()) || userRepository.existsByAccountId(request.getAccountId())) {
             throw new IllegalArgumentException("이미 가입된 이메일이거나 사용 중인 아이디입니다.");
         }
-        User user = User.builder()
-                .accountId(request.getAccountId())
-                .email(request.getEmail())
+
+        User user = authConverter.toEntity(request);
+        user = user.toBuilder()
                 .password(passwordEncoder.encode(request.getPassword()))
-                .name(request.getName())
-                .age(request.getAge())
-                .gender(request.getGender())
-                .birth(request.getBirth())
                 .role(Role.ROLE_USER)
                 .build();
         userRepository.save(user);

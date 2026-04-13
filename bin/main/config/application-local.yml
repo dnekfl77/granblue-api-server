@@ -1,6 +1,10 @@
 server:
   port: 8080
+
 spring:
+  devtools:
+    restart:
+      enabled: true # local 환경에서만 코드 수정 시 자동 재시작 활성화
   datasource:
     url: jdbc:postgresql://localhost:5432/granblue_db
     username: granblue_user

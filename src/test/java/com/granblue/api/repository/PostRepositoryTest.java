@@ -10,8 +10,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import com.granblue.api.config.JpaConfig;
-import com.granblue.api.entity.Gender;
-import com.granblue.api.entity.Role;
+import com.granblue.api.type.Gender;
+import com.granblue.api.type.Role;
 
 import java.util.List;
 
@@ -41,6 +41,7 @@ class PostRepositoryTest {
                 .birth("1999-12-31")
                 .gender(Gender.MALE)
                 .role(Role.ROLE_USER)
+                .termsAgreed(true)
                 .build();
         userRepository.save(testAuthor);
     }

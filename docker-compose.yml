@@ -4,6 +4,7 @@ services:
   postgres:
     image: postgres:15-alpine
     container_name: granblue-postgres
+    restart: unless-stopped
     ports:
       - "5432:5432"
     environment:
@@ -11,7 +12,4 @@ services:
       POSTGRES_USER: granblue_user
       POSTGRES_PASSWORD: granblue_password
     volumes:
-      - ./postgres_data:/home/dnekfl77/storage/postgresql/data
-
-volumes:
-  postgres_data:
+      - ${HOME}/storage/postgresql/granblue_db:/var/lib/postgresql/data

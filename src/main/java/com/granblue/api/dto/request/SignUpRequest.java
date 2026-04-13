@@ -1,6 +1,6 @@
 package com.granblue.api.dto.request;
 
-import com.granblue.api.entity.Gender;
+import com.granblue.api.type.Gender;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -41,4 +41,8 @@ public class SignUpRequest {
     @NotBlank(message = "생일은 필수입니다.")
     @Schema(description = "생년월일 (YYYYMMDD)", example = "19990101")
     private String birth;
+
+    @NotNull(message = "약관 동의 여부는 필수입니다.")
+    @Schema(description = "약관 동의 여부", example = "true")
+    private Boolean termsAgreed;
 }
