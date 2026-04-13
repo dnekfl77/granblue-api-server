@@ -1,15 +1,20 @@
 package com.granblue.api.entity;
 
+import com.granblue.api.type.Gender;
+import com.granblue.api.type.Role;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Entity
 @Table(name = "users")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder(toBuilder = true)
 public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,15 +46,6 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private Role role;
 
-    @Builder
-    public User(String accountId, String email, String password, String name, Integer age, Gender gender, String birth, Role role) {
-        this.accountId = accountId;
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.age = age;
-        this.gender = gender;
-        this.birth = birth;
-        this.role = role;
-    }
+    @Column(nullable = false)
+    private Boolean termsAgreed;
 }

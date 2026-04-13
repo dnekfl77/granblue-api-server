@@ -1,4 +1,15 @@
-# Project Overview
+# Project Overview & Master AI Guide
+
+**🚨 [AI ASSISTANT INITIALIZATION] 🚨**
+이 문서는 본 프로젝트의 최상위 마스터 가이드입니다. AI 어시스턴트는 작업을 시작하기 전, **반드시 아래의 하위 가이드 문서들을 먼저 병행 숙지**해야 합니다.
+1. 👉 `instructions.md` : AI 어시스턴트의 핵심 행동 지침 및 작업 워크플로우
+2. 👉 `.ai/GEMINI.md` 및 `.ai/domains/*.md` : 프로젝트의 공통 아키텍처 상태와 각 도메인별(Auth, User, Post 등) 세부 구현 상태
+* **[중요 필수 규칙]**: 특정 모듈에 새로운 기능이 추가되거나 로직이 수정될 경우, AI 에이전트는 코드를 작성/수정함과 동시에 반드시 해당 모듈의 도메인 가이드를 함께 업데이트하여 변경 이력, 스키마, 비즈니스 로직 가이드를 최신 상태로 유지해야 합니다.
+
+위 문서들을 모두 파악했다면, 아래의 기술 스택과 규칙을 엄격히 준수하여 코드를 생성하세요.
+
+---
+
 본 프로젝트는 React, Svelte 등의 클라이언트 애플리케이션을 위한 RESTful API 서버입니다. 
 확장 가능한 아키텍처를 지향하며, 아래의 기술 스택과 규칙을 엄격히 준수하여 코드를 생성해야 합니다.
 
@@ -38,6 +49,7 @@
    - `service`: 비즈니스 로직 (인터페이스와 구현체 `impl` 분리 권장)
    - `repository`: JPA Repository
    - `entity`: JPA Entity (DB 매핑)
+   - `type`: Enum 등 공통 타입 정의
    - `dto`: `request`, `response` 하위 패키지 분리
       - `dto.converter`: MapStruct 인터페이스 (~Converter.java) 위치
    - `exception`: 커스텀 예외 및 에러 응답 객체

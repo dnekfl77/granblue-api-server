@@ -6,6 +6,9 @@ spring:
     active: local
   application:
     name: granblue-api
+  devtools:
+    restart:
+      enabled: false # 기본적으로 자동 재시작 비활성화 (운영/개발 서버 안전성)
   datasource:
     driver-class-name: org.postgresql.Driver
   jpa:

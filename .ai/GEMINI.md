@@ -5,6 +5,13 @@
 
 ---
 
+## 🤖 Task-Specific Model Usage
+* **Gemini 3.1 Pro Preview**: 아키텍처 설계, 복잡한 비즈니스 로직 구현, 대규모 리팩토링 및 코드 리뷰.
+* **Gemini 3 Flash Preview**: 실시간 스트리밍 UI 구현, 빠른 텍스트 처리, 단위 함수 작성.
+* **Gemini Code Assist (VS Code)**: 인라인 코드 완성, 실시간 버그 수정 및 심볼 참조.
+
+---
+
 ## 1. 프로젝트 개요 및 아키텍처 규칙
 - **Tech Stack:** Spring Boot 3.2.3, Java 17, PostgreSQL (Docker), Spring Security, JWT, MapStruct, Lombok
 - **Architecture:**
@@ -40,6 +47,7 @@ volumes:
 ### `build.gradle` (주요 의존성 요약)
 ```gradle
 dependencies {
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
@@ -121,53 +129,14 @@ public class ApiResponse<T> {
 
 ---
 
-## 5. 도메인 - 회원 (Auth & User)
-
-### `User` Entity
-- **Fields**: id, accountId(unique), email(unique), password, name, age, gender(Enum), birth, role(Enum)
-- `BaseTimeEntity` 상속 (createdAt, updatedAt)
-
-### `AuthController` & `AuthService`
-- **POST `/api/v1/auth/sign-up`**
-  - `SignUpRequest` DTO로 입력받아 비밀번호를 BCrypt로 암호화 후 User 저장.
-  - 중복된 이메일/아이디 방어 로직 존재.
-- **POST `/api/v1/auth/sign-in`**
-  - `LoginRequest` DTO로 입력받아 검증 후 `JwtTokenProvider`를 통해 `TokenResponse` 반환.
+## 5. 도메인별 세부 컨텍스트
+각 도메인의 세부 엔티티, 컨트롤러, 서비스 로직은 아래 분리된 문서를 참고하세요.
+- 👉 회원/인증 도메인 (Auth & User)
+- 👉 게시판 도메인 (Post)
 
 ---
 
-## 6. 도메인 - 게시판 (Post)
-
-### `Post` Entity
-- **Fields**: id, title, content, author (User와 ManyToOne 매핑)
-
-### `PostRepository`
-```java
-public interface PostRepository extends JpaRepository<Post, Long> {
-    @Query("SELECT p FROM Post p JOIN FETCH p.author ORDER BY p.createdAt DESC")
-    List<Post> findAllWithAuthorOrderByCreatedAtDesc();
-}
-```
-
-### MapStruct Mapper (`PostMapper`)
-```java
-@Mapper(componentModel = "spring")
-public interface PostMapper {
-    @Mapping(source = "author.name", target = "authorName")
-    PostResponse toResponse(Post post);
-}
-```
-
-### `PostController` & `PostService`
-- **POST `/api/v1/posts`**
-  - `PostCreateRequest` (title, content) 입력.
-  - `Authentication` 객체에서 email(`authentication.getName()`)을 꺼내 작성자로 지정하여 글 생성.
-- **GET `/api/v1/posts`**
-  - `PostMapper`를 이용해 엔티티를 `PostResponse` DTO로 변환하여 목록 반환.
-
----
-
-## 7. 현재까지 개발된 API 엔드포인트 요약
+## 6. 현재까지 개발된 API 엔드포인트 요약
 
 | HTTP Method | Endpoint | Description | Auth Required |
 |-------------|----------|-------------|---------------|
@@ -178,7 +147,7 @@ public interface PostMapper {
 
 ---
 
-## 8. 다음 진행 추천 작업 (Next Steps)
+## 7. 다음 진행 추천 작업 (Next Steps)
 1. 특정 게시글 단건 조회 API 및 수정/삭제 기능 구현.
 2. JPA 동적 쿼리(Querydsl) 초기 설정 및 검색 기능 도입.
 3. 게시글과 댓글(Comment) 간 연관관계 도메인 설계.
